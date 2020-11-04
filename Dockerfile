@@ -13,7 +13,7 @@ RUN apt-get update && \
   python-pip \
   && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 
 COPY requirements.txt ./
 RUN pip install --upgrade pip setuptools wheel
@@ -22,12 +22,17 @@ RUN pip install biom-format==2.1.7
 RUN pip install Orange-Bioinformatics==2.6.19
 RUN pip install -r requirements.txt
 
-RUN curl https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.10.1/ncbi-blast-2.10.1+-x64-linux.tar.gz \
-  | tar -xzf /tmp/blastn \
-  && make -C /tmp/blastn
-ENV PATH "$PATH:/tmp/blastn"
+RUN mkdir /tmp/blastn
 
-COPY . .
+WORKDIR /tmp/blastn
 
-# CMD [ "python", "./your-daemon-or-script.py" ]
+RUN curl https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.10.1/ncbi-blast-2.10.1+-x64-linux.tar.gz --output ncbi-blast-2.10.1+-x64-linux.tar.gz
+RUN tar -xf ncbi-blast-2.10.1+-x64-linux.tar.gz
+RUN rm ncbi-blast-2.10.1+-x64-linux.tar.gz
+
+ENV PATH "$PATH:/tmp/blastn/ncbi-blast-2.10.1+/bin"
+
+WORKDIR /usr/src
+RUN rm requirements.txt
+
 CMD ["/bin/bash"]
