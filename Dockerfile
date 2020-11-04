@@ -23,7 +23,7 @@ RUN pip install Orange-Bioinformatics==2.6.19
 RUN pip install -r requirements.txt
 
 RUN curl https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.10.1/ncbi-blast-2.10.1+-x64-linux.tar.gz \
-  | tar -xjC /tmp/blastn \
+  | tar -xzf /tmp/blastn \
   && make -C /tmp/blastn
 ENV PATH "$PATH:/tmp/blastn"
 
