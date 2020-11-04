@@ -7,6 +7,7 @@ RUN apt-get update && \
   python-dev \
   build-essential \
   make \
+  curl \
   libgraphviz-dev \
   python2.7-dev \
   python-pip \
