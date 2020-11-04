@@ -4,14 +4,8 @@ RUN apt-get update && \
   apt-get install -y --no-install-recommends \
   g++ \
   gcc \
-#   libc6-dev \
   python-dev \
   build-essential \
-#   libssl-dev \
-#   libffi-dev \
-#   libxml2-dev \
-#   libxslt1-dev \
-#   zlib1g-dev \
   make \
   libgraphviz-dev \
   python2.7-dev \
@@ -26,6 +20,11 @@ RUN pip install numpy==1.16.6 Cython==0.29.21
 RUN pip install biom-format==2.1.7 
 RUN pip install Orange-Bioinformatics==2.6.19
 RUN pip install -r requirements.txt
+
+RUN curl https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.10.1/ncbi-blast-2.10.1+-x64-linux.tar.gz \
+  | tar -xjC /tmp/blastn \
+  && make -C /tmp/blastn
+ENV PATH "$PATH:/tmp/blastn"
 
 COPY . .
 
